@@ -23,8 +23,8 @@ public class BotConfiguration {
     @Bean
     public List<? extends Command> commands() {
         return List.of(
-            new StartCommand(),
             new HelpCommand(),
+            new StartCommand(),
             new TrackCommand(trackingService),
             new ListCommand(trackingService),
             new UntrackCommand(trackingService)
