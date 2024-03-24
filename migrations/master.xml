@@ -7,7 +7,7 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd
        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <include file="01-users.sql"/>
+    <include file="01-tg_users.sql"/>
     <include file="02-links.sql"/>
     <include file="03-user_links.sql"/>
 </databaseChangeLog>

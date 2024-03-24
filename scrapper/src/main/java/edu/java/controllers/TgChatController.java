@@ -1,6 +1,7 @@
 package edu.java.controllers;
 
 import edu.java.ApiErrorResponse;
+import edu.java.services.interfaces.TgChatService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -17,6 +18,8 @@ import reactor.core.publisher.Mono;
 @RestController
 @RequiredArgsConstructor
 public class TgChatController {
+    private final TgChatService tgChatService;
+
     @Operation(summary = "Зарегистрировать чат")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Чат зарегистрирован"),
@@ -29,7 +32,10 @@ public class TgChatController {
     })
     @PostMapping("/tg-chat/{id}")
     public Mono<ResponseEntity<?>> registerChat(@PathVariable long id) {
-        return Mono.fromCallable(() -> ResponseEntity.ok().build());
+        return Mono.fromCallable(() -> {
+            tgChatService.register(id);
+            return ResponseEntity.ok().build();
+        });
     }
 
     @Operation(summary = "Удалить чат")
@@ -44,6 +50,9 @@ public class TgChatController {
     })
     @DeleteMapping("/tg-chat/{id}")
     public Mono<ResponseEntity<?>> deleteChat(@PathVariable long id) {
-        return Mono.fromCallable(() -> ResponseEntity.ok().build());
+        return Mono.fromCallable(() -> {
+            tgChatService.unregister(id);
+            return ResponseEntity.ok().build();
+        });
     }
 }

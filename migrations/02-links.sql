@@ -5,7 +5,8 @@ CREATE TABLE links
 
     created_at TIMESTAMP WITH TIME ZONE NOT NULL,
     created_by TEXT NOT NULL,
+    updated_at TIMESTAMP WITH TIME ZONE NOT NULL,
+    last_checked_at timestamp with time zone NOT NULL,
 
-    PRIMARY KEY (id),
-    UNIQUE (url)
+    PRIMARY KEY (id)
 );

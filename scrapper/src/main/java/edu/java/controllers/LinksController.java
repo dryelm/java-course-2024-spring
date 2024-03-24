@@ -4,11 +4,13 @@ import edu.java.AddLinkRequest;
 import edu.java.ApiErrorResponse;
 import edu.java.LinkResponse;
 import edu.java.LinksListResponse;
+import edu.java.services.interfaces.LinkService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +24,8 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class LinksController {
 
+    private final LinkService linkService;
+
     @Operation(summary = "Получить все отслеживаемые ссылки")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Ссылки успешно получены"),
@@ -34,7 +38,17 @@ public class LinksController {
     })
     @GetMapping("/links")
     public Mono<ResponseEntity<LinksListResponse>> getLinks(@RequestHeader("Tg-Chat-Id") long tgChatId) {
-        return Mono.fromCallable(() -> ResponseEntity.ok(new LinksListResponse(new LinkResponse[0], 0)));
+        return Mono.fromCallable(() -> {
+            var links = linkService.listAll(tgChatId);
+            if (links != null) {
+                var linkResponses = links.stream()
+                    .map(link -> new LinkResponse(link.getUrl(), link.getId()))
+                    .toArray(LinkResponse[]::new);
+                return ResponseEntity.ok(new LinksListResponse(linkResponses, linkResponses.length));
+            }
+
+            return ResponseEntity.ok(new LinksListResponse(new LinkResponse[0], 0));
+        });
     }
 
     @Operation(summary = "Добавить отслеживание ссылки")
@@ -52,7 +66,10 @@ public class LinksController {
         @RequestHeader("Tg-Chat-Id") long tgChatId,
         @RequestBody AddLinkRequest addLinkRequest
     ) {
-        return Mono.fromCallable(() -> ResponseEntity.ok(new LinkResponse(addLinkRequest.link(), 1)));
+        return Mono.fromCallable(() -> {
+            var link = linkService.add(tgChatId, URI.create(addLinkRequest.link()));
+            return ResponseEntity.ok(new LinkResponse(link.getUrl(), link.getId()));
+        });
     }
 
     @Operation(summary = "Убрать отслеживание ссылки")
@@ -70,7 +87,10 @@ public class LinksController {
         @RequestHeader("Tg-Chat-Id") long tgChatId,
         @RequestBody AddLinkRequest addLinkRequest
     ) {
-        return Mono.fromCallable(() -> ResponseEntity.ok(new LinkResponse(addLinkRequest.link(), 1)));
+        return Mono.fromCallable(() -> {
+            var link = linkService.remove(tgChatId, URI.create(addLinkRequest.link()));
+            return ResponseEntity.ok(new LinkResponse(link.getUrl(), link.getId()));
+        });
     }
 
 }

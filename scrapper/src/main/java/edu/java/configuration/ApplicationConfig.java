@@ -1,6 +1,6 @@
 package edu.java.configuration;
 
-import edu.java.linkUpdater.LinkUpdater;
+import edu.java.services.DefaultLinkUpdater;
 import jakarta.validation.constraints.NotNull;
 import java.time.Duration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -15,11 +15,12 @@ import org.springframework.validation.annotation.Validated;
 @ComponentScan("edu.java")
 public record ApplicationConfig(
     @NotNull
-    Scheduler scheduler
+    Scheduler scheduler,
+    AccessType databaseAccessType
 ) {
     @Bean
-    public LinkUpdater linkUpdaterScheduler() {
-        return new LinkUpdater();
+    public DefaultLinkUpdater linkUpdaterScheduler() {
+        return new DefaultLinkUpdater();
     }
 
     @Bean
