@@ -12,9 +12,9 @@ import edu.java.services.interfaces.LinkUpdater;
 import java.time.Duration;
 import java.time.OffsetDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 public class JdbcLinkUpdater implements LinkUpdater {
     private final UpdateBotClient botClient = new UpdateBotClient("http://localhost:8090");
     private final int twentyFour = 24;

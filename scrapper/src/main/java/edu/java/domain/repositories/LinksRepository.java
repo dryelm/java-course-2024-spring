@@ -6,9 +6,10 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
-@Repository
+@Component
 public class LinksRepository {
     private final JdbcTemplate jdbcTemplate;
     private final String idString = "id";

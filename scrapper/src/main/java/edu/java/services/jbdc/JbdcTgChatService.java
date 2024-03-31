@@ -3,9 +3,9 @@ package edu.java.services.jbdc;
 import edu.java.domain.entities.UserDto;
 import edu.java.domain.repositories.TgUsersRepository;
 import edu.java.services.interfaces.TgChatService;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 public class JbdcTgChatService implements TgChatService {
     private final TgUsersRepository tgUsersRepository;
 

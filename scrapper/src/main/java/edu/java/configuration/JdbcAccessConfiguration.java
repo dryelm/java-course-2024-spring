@@ -16,15 +16,25 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConditionalOnProperty(prefix = "app", name = "database-access-type", havingValue = "jdbc")
 public class JdbcAccessConfiguration {
+    public final LinksRepository linksRepository;
+    public final UserLinksRepository userLinksRepository;
+    private final TgUsersRepository tgUsersRepository;
+
+    public JdbcAccessConfiguration(LinksRepository linksRepository, UserLinksRepository userLinksRepository,
+        TgUsersRepository tgUsersRepository
+    ) {
+        this.linksRepository = linksRepository;
+        this.userLinksRepository = userLinksRepository;
+        this.tgUsersRepository = tgUsersRepository;
+    }
+
     @Bean
-    public LinkService linkService(LinksRepository linksRepository, UserLinksRepository userLinksRepository) {
-        log.info("JDBC link service created");
+    public LinkService linkService() {
         return new JbdcLinkService(linksRepository, userLinksRepository);
     }
 
     @Bean
-    public TgChatService tgChatService(TgUsersRepository tgUsersRepository) {
-        log.info("JDBC chat service created");
+    public TgChatService tgChatService() {
         return new JbdcTgChatService(tgUsersRepository);
     }
 }

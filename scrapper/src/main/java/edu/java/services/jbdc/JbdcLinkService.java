@@ -7,9 +7,9 @@ import edu.java.domain.repositories.UserLinksRepository;
 import edu.java.services.interfaces.LinkService;
 import java.net.URI;
 import java.util.List;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 public class JbdcLinkService implements LinkService {
     private final LinksRepository linksRepository;
     private final UserLinksRepository userLinksRepository;

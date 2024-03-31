@@ -8,11 +8,11 @@ import edu.java.services.exceptions.RepeatedRegistrationException;
 import edu.java.services.interfaces.TgChatService;
 import java.util.HashSet;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
-@Service
+@Component
 public class JpaTgChatService implements TgChatService {
     private final JpaTgUsersRepository tgUsersRepository;
 
@@ -23,7 +23,7 @@ public class JpaTgChatService implements TgChatService {
             throw new IllegalArgumentException("Id should be positive");
         }
         if (!tgUsersRepository.existsById(tgChatId)) {
-            tgUsersRepository.saveAndFlush(new TgUserEntity(tgChatId, new HashSet<>()));
+            tgUsersRepository.saveAndFlush(new TgUserEntity(tgChatId));
         } else {
             throw new RepeatedRegistrationException("This chat already exists");
         }

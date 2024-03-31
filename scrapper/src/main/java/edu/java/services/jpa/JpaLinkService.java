@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @RequiredArgsConstructor
-@Service
 public class JpaLinkService implements LinkService {
 
     private static final String CHAT_NOT_EXIST = "This chat doesn't exist";

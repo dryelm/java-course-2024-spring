@@ -4,9 +4,9 @@ import edu.java.domain.entities.UserLinkDto;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
-@Repository
+@Component
 public class UserLinksRepository {
     private final JdbcTemplate jdbcTemplate;
     private final String userIdLabel = "user_id";

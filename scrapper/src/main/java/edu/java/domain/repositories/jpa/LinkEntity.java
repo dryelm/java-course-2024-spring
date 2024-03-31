@@ -19,7 +19,7 @@ import lombok.Setter;
 
 @Setter
 @Getter @Entity
-@Table(name = "link")
+@Table(name = "links")
 @AllArgsConstructor
 @NoArgsConstructor
 public class LinkEntity {
@@ -28,7 +28,6 @@ public class LinkEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String url;
-    private String description;
 
     @Column(name = "updated_at")
     private OffsetDateTime updatedAt;

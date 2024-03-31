@@ -9,8 +9,7 @@ import edu.java.services.jpa.JpaTgChatService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import java.util.HashSet;
+import org.springframework.transaction.annotation.Transactional;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -25,6 +24,7 @@ public class JpaTgChatServiceTest extends IntegrationTest {
     private JpaTgUsersRepository tgUsersRepository;
 
     @Test
+    @Transactional
     public void testRegister() throws RepeatedRegistrationException, AlreadyExistException {
         long tgChatId = 123L;
         jpaTgChatService.register(tgChatId);
@@ -32,21 +32,24 @@ public class JpaTgChatServiceTest extends IntegrationTest {
     }
 
     @Test
+    @Transactional
     public void testRegisterAlreadyExists() {
         long tgChatId = 123L;
-        tgUsersRepository.saveAndFlush(new TgUserEntity(tgChatId, new HashSet<>()));
+        tgUsersRepository.saveAndFlush(new TgUserEntity(tgChatId));
         assertThrows(RepeatedRegistrationException.class, () -> jpaTgChatService.register(tgChatId));
     }
 
     @Test
+    @Transactional
     public void testUnregister() throws NotExistException {
         long tgChatId = 123L;
-        tgUsersRepository.saveAndFlush(new TgUserEntity(tgChatId, new HashSet<>()));
+        tgUsersRepository.saveAndFlush(new TgUserEntity(tgChatId));
         jpaTgChatService.unregister(tgChatId);
         assertFalse(tgUsersRepository.existsById(tgChatId));
     }
 
     @Test
+    @Transactional
     public void testUnregisterNotExists() {
         long tgChatId = 123L;
         assertThrows(NotExistException.class, () -> jpaTgChatService.unregister(tgChatId));
