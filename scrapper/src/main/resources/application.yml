@@ -4,6 +4,8 @@ app:
     interval: 10s
     force-check-delay: 10s
 
+  database-access-type: jpa
+
 spring:
   application:
     name: scrapper

@@ -13,4 +13,7 @@ public class StackOverflowQuestionResponse {
 
     @Getter @JsonProperty("creation_date")
     private OffsetDateTime creationDate;
+
+    @Getter  @JsonProperty("updated_at")
+    private OffsetDateTime updatedAt;
 }
