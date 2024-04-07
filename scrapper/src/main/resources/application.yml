@@ -6,6 +6,15 @@ app:
 
   database-access-type: jpa
 
+  retry-policy:
+    policy: constant
+    max-attempts: 3
+    backoff-initial-delay: 1s
+    backoff-appender: 2
+
+  use-queue: true
+
+
 spring:
   application:
     name: scrapper
