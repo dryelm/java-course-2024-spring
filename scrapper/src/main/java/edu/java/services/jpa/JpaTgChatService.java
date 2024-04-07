@@ -6,7 +6,6 @@ import edu.java.services.exceptions.AlreadyExistException;
 import edu.java.services.exceptions.NotExistException;
 import edu.java.services.exceptions.RepeatedRegistrationException;
 import edu.java.services.interfaces.TgChatService;
-import java.util.HashSet;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

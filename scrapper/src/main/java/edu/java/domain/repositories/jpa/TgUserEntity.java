@@ -1,6 +1,5 @@
 package edu.java.domain.repositories.jpa;
 
-import edu.java.domain.entities.UserDto;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -24,11 +23,9 @@ import lombok.Setter;
 @Entity
 @Table(name = "tg_users")
 public class TgUserEntity {
+    private static final int DEPTH = 3;
     @Id
     private Long id;
-
-    private static final int depth = 3;
-
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
         name = "user_links",
@@ -45,11 +42,9 @@ public class TgUserEntity {
         this.createdBy = getCreatedBy();
     }
 
-
-
     private String getCreatedBy() {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-        return stackTrace[depth].getClassName() + "." + stackTrace[depth].getMethodName();
+        return stackTrace[DEPTH].getClassName() + "." + stackTrace[DEPTH].getMethodName();
     }
 
     public void addLink(LinkEntity link) {
