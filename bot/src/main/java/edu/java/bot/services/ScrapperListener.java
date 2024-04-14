@@ -19,7 +19,7 @@ public class ScrapperListener {
                     concurrency = "1",
                     autoCreateTopics = "false",
                     dltTopicSuffix = "-dlq")
-    @KafkaListener(topics = "${app.scrapper-topic.name}", concurrency = "1", groupId = "group1")
+    @KafkaListener(topics = "${scrapper-topic.name}", concurrency = "1", groupId = "group1")
     public void listen(@Valid UpdateRequestDto update, Acknowledgment acknowledgment) {
         updatesHandler.handleUpdate(update);
         acknowledgment.acknowledge();

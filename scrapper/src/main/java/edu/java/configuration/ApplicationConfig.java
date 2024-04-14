@@ -19,10 +19,13 @@ public record ApplicationConfig(
     Scheduler scheduler,
     @NotNull
     AccessType databaseAccessType,
+
     @NotNull
     RetryPolicy retryPolicy,
     @NotNull
-    TopicConfig topic
+    TopicConfig topic,
+    @NotNull
+    boolean useQueue
 
 ) {
     @Bean

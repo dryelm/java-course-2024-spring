@@ -9,6 +9,7 @@ import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.TopicBuilder;
@@ -19,6 +20,7 @@ import org.springframework.kafka.support.serializer.JsonSerializer;
 
 @Slf4j
 @Configuration
+@ConditionalOnProperty(prefix = "app", name = "use-queue", havingValue = "true")
 @RequiredArgsConstructor
 public class KafkaConfiguration {
     private final ApplicationConfig config;

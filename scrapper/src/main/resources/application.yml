@@ -7,17 +7,28 @@ app:
   database-access-type: jpa
 
   retry-policy:
-    policy: constant
+    retry-type: constant
     max-attempts: 3
     backoff-initial-delay: 1s
     backoff-appender: 2
 
-  use-queue: true
+  topic:
+    name: bot_updates
+    partitions: 5
+    replicas: 2
+
+  use-queue: false
+
 
 
 spring:
   application:
     name: scrapper
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5437/scrapper
+    username: postgres
+    password: postgres
 
 server:
   port: 8080
@@ -28,3 +39,28 @@ logging:
 springdoc:
   swagger-ui:
     path: /swagger-ui
+
+management:
+  endpoints:
+    web:
+      base-path: ''
+      exposure:
+        include: '*'
+      path-mapping:
+        prometheus: 'metrics'
+  metrics:
+    tags:
+      application: '${spring.application.name}'
+  health:
+    probes:
+      enabled: true
+  info:
+    git:
+      mode: 'full'
+  server:
+    port: 8082 # отдельный порт для management endpoint'ов
+micrometer:
+  registry:
+    prometheus:
+      enabled: true
+      step: PT1M
