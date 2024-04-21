@@ -58,7 +58,7 @@ management:
     git:
       mode: 'full'
   server:
-    port: 8082 # отдельный порт для management endpoint'ов
+    port: 8081 # отдельный порт для management endpoint'ов
 micrometer:
   registry:
     prometheus:
