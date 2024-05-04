@@ -1,8 +1,9 @@
-app:
-  telegram-token: unset
-
 bot:
   token: "${TOKEN}"
+
+  scrapper-topic:
+    name: link-update
+
 spring:
   application:
     name: bot
