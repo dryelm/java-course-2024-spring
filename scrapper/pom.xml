@@ -12,6 +12,10 @@
     <artifactId>scrapper</artifactId>
     <version>${revision}</version>
 
+    <properties>
+        <revision>0.1</revision>
+    </properties>
+
     <dependencies>
         <!-- Web -->
         <dependency>
