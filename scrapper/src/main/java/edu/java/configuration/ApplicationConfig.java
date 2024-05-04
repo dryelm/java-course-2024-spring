@@ -25,6 +25,7 @@ public record ApplicationConfig(
     TopicConfig topic,
     @NotNull
     boolean useQueue
+
 ) {
     @Bean
     public DefaultLinkUpdater linkUpdaterScheduler() {

@@ -1,14 +1,19 @@
 bot:
   token: "${TOKEN}"
 
-scrapper-topic:
-  name: bot_updates
+  scrapper-topic:
+    name: link-update
 
 spring:
   application:
     name: bot
   jackson:
     time-zone: UTC
+
+scrapper-topic:
+  name: bot_updates
+
+
 
 server:
   port: 8090
@@ -19,3 +24,30 @@ logging:
 springdoc:
   swagger-ui:
     path: /swagger-ui
+
+management:
+  server:
+    port: 8081
+  metrics:
+    tags:
+      application: ${spring.application.name}
+  endpoints:
+    web:
+      base-path: ''
+      exposure:
+        include: '*'
+      path-mapping:
+        prometheus: 'metrics'
+    enabled-by-default: false
+  endpoint:
+    health:
+      enabled: true
+    info:
+      enabled: true
+    prometheus:
+      enabled: true
+micrometer:
+  registry:
+    prometheus:
+      enabled: true
+      step: PT1M

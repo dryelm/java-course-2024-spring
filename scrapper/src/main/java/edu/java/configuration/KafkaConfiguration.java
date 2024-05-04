@@ -20,8 +20,8 @@ import org.springframework.kafka.support.serializer.JsonSerializer;
 
 @Slf4j
 @Configuration
-@RequiredArgsConstructor
 @ConditionalOnProperty(prefix = "app", name = "use-queue", havingValue = "true")
+@RequiredArgsConstructor
 public class KafkaConfiguration {
     private final ApplicationConfig config;
 

@@ -8,6 +8,8 @@ import com.pengrad.telegrambot.request.BaseRequest;
 import com.pengrad.telegrambot.request.SetMyCommands;
 import com.pengrad.telegrambot.response.BaseResponse;
 import edu.java.bot.commands.Command;
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.Metrics;
 import jakarta.annotation.PostConstruct;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +20,16 @@ import org.springframework.stereotype.Component;
 public class TrackingBot implements Bot {
     private final TelegramBot bot;
     private final UserMessageProcessor userMessageProcessor;
+    private final Counter counter;
 
     @Autowired
-    public TrackingBot(@Value("${bot.token}") String botToken, UserMessageProcessor userMessageProcessor) {
+    public TrackingBot(
+        @Value("${bot.token}") String botToken,
+        UserMessageProcessor userMessageProcessor
+    ) {
         bot = new TelegramBot(botToken);
         this.userMessageProcessor = userMessageProcessor;
+        this.counter = Metrics.counter("proceed.messages");
     }
 
     @PostConstruct
@@ -40,6 +47,7 @@ public class TrackingBot implements Bot {
         for (Update update : updates) {
             var message = userMessageProcessor.process(update);
             if (message != null) {
+                counter.increment();
                 execute(message);
             }
             execute(new SetMyCommands(userMessageProcessor.commands().stream().map(Command::toApiCommand)
