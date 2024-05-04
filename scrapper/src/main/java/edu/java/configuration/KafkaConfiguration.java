@@ -22,7 +22,6 @@ import org.springframework.kafka.support.serializer.JsonSerializer;
 @Configuration
 @ConditionalOnProperty(prefix = "app", name = "use-queue", havingValue = "true")
 @RequiredArgsConstructor
-@ConditionalOnProperty(prefix = "app", name = "use-queue", havingValue = "true")
 public class KafkaConfiguration {
     private final ApplicationConfig config;
 
