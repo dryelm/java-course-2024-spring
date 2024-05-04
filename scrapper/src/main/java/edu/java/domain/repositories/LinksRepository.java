@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
 @Component
 public class LinksRepository {
@@ -16,6 +15,8 @@ public class LinksRepository {
     private final String urlString = "url";
     private final String createdAtString = "created_at";
     private final String createdByString = "created_by";
+    private final String updatedAtString = "updated_at";
+    private final String lastCheckedAtString = "last_checked_at";
     private final int depth = 3;
 
     public LinksRepository(JdbcTemplate jdbcTemplate) {
@@ -25,8 +26,16 @@ public class LinksRepository {
     public LinkDto add(LinkDto dto) {
         dto.setCreatedAt(LocalDateTime.now());
         setCreatedBy(dto);
-        String sql = "INSERT INTO links (url, created_at, created_by) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sql, dto.getUrl(), dto.getCreatedAt(), dto.getCreatedBy());
+        String sql =
+            "INSERT INTO links (url, created_at, created_by, updated_at, last_checked_at) VALUES (?, ?, ?, ?, ?)";
+        jdbcTemplate.update(
+            sql,
+            dto.getUrl(),
+            dto.getCreatedAt(),
+            dto.getCreatedBy(),
+            dto.getUpdatedAt(),
+            dto.getLastCheckedAt()
+        );
         return dto;
     }
 
@@ -36,20 +45,35 @@ public class LinksRepository {
     }
 
     public void update(LinkDto link) {
-        String sql = "UPDATE links SET url = ?, created_at = ?, created_by = ?, updated_at = ? WHERE id = ?";
-        jdbcTemplate.update(sql, link.getUrl(),
-            Timestamp.valueOf(link.getCreatedAt()), link.getCreatedBy(), link.getId(), link.getLastCheckedAt()
+        String sql =
+            "UPDATE links SET "
+                + "url = ?, "
+                + "created_at = ?, "
+                + "created_by = ?, "
+                + "updated_at = ?, "
+                + "last_checked_at = ? "
+                + "WHERE id = ?";
+        jdbcTemplate.update(
+            sql,
+            link.getUrl(),
+            Timestamp.valueOf(link.getCreatedAt()),
+            link.getCreatedBy(),
+            Timestamp.valueOf(link.getUpdatedAt()),
+            Timestamp.valueOf(link.getLastCheckedAt()),
+            link.getId()
         );
     }
 
     public List<LinkDto> findAll() {
-        String sql = "SELECT id, url, created_at, created_by FROM links";
+        String sql = "SELECT * FROM links";
         return jdbcTemplate.query(sql, (rs, rowNum) ->
             new LinkDto(
                 rs.getLong(idString),
                 rs.getString(urlString),
                 rs.getTimestamp(createdAtString).toLocalDateTime(),
-                rs.getString(createdByString)
+                rs.getString(createdByString),
+                rs.getTimestamp(updatedAtString).toLocalDateTime(),
+                rs.getTimestamp(lastCheckedAtString).toLocalDateTime()
             )
         );
     }
@@ -62,7 +86,9 @@ public class LinksRepository {
                 rs.getLong(idString),
                 rs.getString(urlString),
                 rs.getTimestamp(createdAtString).toLocalDateTime(),
-                rs.getString(createdByString)
+                rs.getString(createdByString),
+                rs.getTimestamp(updatedAtString).toLocalDateTime(),
+                rs.getTimestamp(lastCheckedAtString).toLocalDateTime()
             ));
     }
 
@@ -71,3 +97,4 @@ public class LinksRepository {
         linkDto.setCreatedBy(stackTrace[depth].getClassName() + "." + stackTrace[depth].getMethodName());
     }
 }
+

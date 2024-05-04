@@ -6,9 +6,30 @@ app:
 
   database-access-type: jpa
 
+  use-queue: false
+
+  retry-policy:
+    retry-type: constant
+    max-attempts: 3
+    backoff-initial-delay: 1s
+    backoff-appender: 2
+
+  topic:
+    name: bot_updates
+    partitions: 5
+    replicas: 2
+
 spring:
   application:
     name: scrapper
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5437/scrapper
+    username: postgres
+    password: postgres
+
+  kafka:
+    bootstrap-servers: localhost:9092
 
 server:
   port: 8080

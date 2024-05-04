@@ -1,5 +1,6 @@
 package edu.java.configuration;
 
+import edu.java.configuration.retrys.RetryPolicy;
 import edu.java.services.DefaultLinkUpdater;
 import jakarta.validation.constraints.NotNull;
 import java.time.Duration;
@@ -16,11 +17,23 @@ import org.springframework.validation.annotation.Validated;
 public record ApplicationConfig(
     @NotNull
     Scheduler scheduler,
-    AccessType databaseAccessType
+    @NotNull
+    AccessType databaseAccessType,
+    @NotNull
+    RetryPolicy retryPolicy,
+    @NotNull
+    TopicConfig topic,
+    @NotNull
+    boolean useQueue
 ) {
     @Bean
     public DefaultLinkUpdater linkUpdaterScheduler() {
         return new DefaultLinkUpdater();
+    }
+
+    @Bean
+    public RetryPolicy retryPolicy() {
+        return retryPolicy;
     }
 
     @Bean
@@ -29,6 +42,9 @@ public record ApplicationConfig(
     }
 
     public record Scheduler(boolean enable, @NotNull Duration interval, @NotNull Duration forceCheckDelay) {
+    }
+
+    public record TopicConfig(String name, int partitions, int replicas) {
     }
 
 }
