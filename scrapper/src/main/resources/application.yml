@@ -6,6 +6,8 @@ app:
 
   database-access-type: jpa
 
+  use-queue: false
+
   retry-policy:
     retry-type: constant
     max-attempts: 3
@@ -17,10 +19,6 @@ app:
     partitions: 5
     replicas: 2
 
-  use-queue: false
-
-
-
 spring:
   application:
     name: scrapper
@@ -29,6 +27,9 @@ spring:
     url: jdbc:postgresql://localhost:5437/scrapper
     username: postgres
     password: postgres
+
+  kafka:
+    bootstrap-servers: localhost:9092
 
 server:
   port: 8080

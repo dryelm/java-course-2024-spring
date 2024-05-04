@@ -19,7 +19,6 @@ public record ApplicationConfig(
     Scheduler scheduler,
     @NotNull
     AccessType databaseAccessType,
-
     @NotNull
     RetryPolicy retryPolicy,
     @NotNull

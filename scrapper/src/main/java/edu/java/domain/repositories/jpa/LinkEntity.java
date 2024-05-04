@@ -59,7 +59,9 @@ public class LinkEntity {
             this.id,
             this.url,
             this.createdAt.toLocalDateTime(),
-            this.createdBy
+            this.createdBy,
+            this.updatedAt.toLocalDateTime(),
+            this.lastCheckedAt.toLocalDateTime()
         ) {
 
         };
