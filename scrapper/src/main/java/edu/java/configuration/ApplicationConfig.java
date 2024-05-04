@@ -22,8 +22,9 @@ public record ApplicationConfig(
     @NotNull
     RetryPolicy retryPolicy,
     @NotNull
-    TopicConfig topic
-
+    TopicConfig topic,
+    @NotNull
+    boolean useQueue
 ) {
     @Bean
     public DefaultLinkUpdater linkUpdaterScheduler() {

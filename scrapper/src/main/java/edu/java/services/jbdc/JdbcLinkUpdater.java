@@ -10,7 +10,7 @@ import edu.java.domain.repositories.LinksRepository;
 import edu.java.domain.repositories.UserLinksRepository;
 import edu.java.services.interfaces.LinkUpdater;
 import java.time.Duration;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -45,7 +45,7 @@ public class JdbcLinkUpdater implements LinkUpdater {
                     var response = gitHubClient.fetchRepository(user, repo).block();
                     if (response != null
                         &&
-                        response.getUpdatedAt().toLocalDateTime().isAfter(link.getLastCheckedAt().toLocalDateTime())) {
+                        response.getUpdatedAt().toLocalDateTime().isAfter(link.getLastCheckedAt())) {
                         var chatIds = userLinksRepository.findAllByLinkId(link.getId());
                         var update = new UpdateRequestDto(
                             link.getId(),
@@ -64,7 +64,7 @@ public class JdbcLinkUpdater implements LinkUpdater {
                     StackOverflowQuestionResponse response = stackOverflowClient.fetchQuestion(questionId).block();
                     if (response != null
                         &&
-                        response.getUpdatedAt().toLocalDateTime().isAfter(link.getLastCheckedAt().toLocalDateTime())) {
+                        response.getUpdatedAt().toLocalDateTime().isAfter(link.getLastCheckedAt())) {
                         var chatIds = userLinksRepository.findAllByLinkId(link.getId());
                         var update = new UpdateRequestDto(
                             link.getId(),
@@ -78,7 +78,7 @@ public class JdbcLinkUpdater implements LinkUpdater {
                 }
             }
 
-            link.setLastCheckedAt(OffsetDateTime.now());
+            link.setLastCheckedAt(LocalDateTime.now());
             linksRepository.update(link);
         }
     }
