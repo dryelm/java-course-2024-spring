@@ -1,6 +1,6 @@
 FROM openjdk:21
 
-COPY ./bot/target/bot.jar ./app/bot.jar
+COPY ./target/bot.jar ./app/bot.jar
 
 ENV TOKEN=${TOKEN}
 
